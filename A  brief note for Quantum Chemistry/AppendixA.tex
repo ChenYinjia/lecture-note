@@ -1,0 +1,486 @@
+\begin{introduction}
+    \item 线性空间基础
+    \item 线性映射基础
+    \item 线性算子基本理论
+    \item 具有度量的线性空间
+\end{introduction}
+本附录是理解笔记的基础，讲述线性代数最基本也是最核心的概念---线性空间和线性映射，所有的内容都是基于这两点进行展开。本章的难度比简单介绍概念要深，同时为了逻辑的顺畅，增加了一些超出量子力学需要的内容。限于自己的能力，本附录对于矩阵与行列式的引入没有做很好的说明。
+\section{线性空间}
+    \subsection{线性空间的概念}
+    我们的第一个目标就是搞懂线性空间的结构是怎么样的。为了方便理解，我们可以通过思考$Euclid$空间来进行类比。在$Euclid$空间中，我们除了可以将其看作许多点以外；我们还可以通过在空间内定义一个零点，考虑所有以零点出发的向量的集合来构成这个空间。
+    
+    在这里，我们的思路是后者。此时我们的目标就从“线性空间是什么？”变成了“向量是什么？”了。在数学中，“是什么”的问题往往是通过它具备什么性质入手解决的。因此在这里我们就需要考虑向量具有的性质是什么。根据高中所学，我们知道向量具有加法与数量乘法两种运算，并且运算满足加法交换律、结合律、乘法分配律、结合律，同时具有零元、负元。那么我们可以认为线性空间就是满足以上性质的集合。
+    
+    但是在具体给出线性空间的严格证明之前还存在一个问题：什么是运算？我们从小时候就懂得如何使用数运算，因此以整数域上的加法运算为例子，考虑$2+3=5$。事实上，从映射的角度上来看就是构成了二元数组到整数域上的映射：$(2,3)\rightarrow5$，于是我们可以得到集合上运算的概念：
+    \begin{definition}{运算}{calculate}
+       我们定义$ S\times M=\{ (a,b),a\in S,b\in M \}$为$S$和$M$的笛卡尔积。如此，我们就称$S\times S\rightarrow S$称为$S$的一个代数运算
+    \end{definition}
+    
+    由此我们可以定义线性空间的概念：
+    \begin{definition}{线性空间}{vectorspace}
+       设$V$是一个非空集合，$F$是一个数域，我们在$V$上规定了两种运算：加法与数量乘法，其中加法是$V\times V \rightarrow V$的映射，定义为：$(\alpha,\beta)\rightarrow \alpha+\beta $；数量乘法是$K\times V \rightarrow V$的映射，定义为：$(k,\alpha)\rightarrow k\alpha$，并且满足8条运算法则，则称$V$是一个线性空间
+       \begin{enumerate}
+           \item{(加法交换律)} $\alpha+\beta$=$\beta+\alpha$
+           \item{(加法结合律)} $(\alpha+\beta)+\gamma=\alpha+(\beta+\gamma)$
+           \item{(零元)} $V$中存在一个元素，称为零元，满足$0+a=a+0$
+           \item{(负元)} $\forall a\in V$，都存在一个元素$\beta$，使得$\alpha+\beta =\beta +\alpha =0$，则称$\beta $为逆元，记作$\beta =-\alpha $
+           \item{(数量乘法的单位元)} $1\alpha =\alpha 1=1$
+           \item{(结合律)}$(kl)\alpha=k(l\alpha )$
+           \item{(分配律1)}$(k+l)\alpha=k\alpha+l\alpha,
+           \forall k,l\in F $
+           \item{(分配律2)}$k(\alpha+\beta)=k\alpha+k\beta , \forall k,l\in F $
+       \end{enumerate}
+    \end{definition}
+    
+    可以看到，所谓线性空间，不过是一个定义了一些代数结构的集合而已，于是我们就可以将集合论中的一些概念迁移到其上。其中，最关键的一个概念就是集合的子集。在实际运用中，我们常常希望集合的子集能够保持原来集合的结构。由此我们引入了子空间的概念：
+    \begin{definition}{子空间}{subspace}
+       设$U$是线性空间$V$的一个子集，如果$V$的8条运算性质对于$U$中任意元素$\delta $都成立，则称$U$是线性空间的一个子空间。
+    \end{definition}
+    \subsection{张成、线性无关、基、维数}
+        \subsubsection{线性组合，张成，线性表出}
+            根据线性空间中加法与数量乘法两种运算，我们可以得到线性组合的定义：
+            \begin{definition}{线性组合}{linearcombination}
+               $a_1,a_2,\ldots,a_m$是线性空间$V$的一组向量组，设$c_1,c_2,\ldots ,c_m\in F$，则称$c_1a_1+c_2a_2+\ldots +c_ma_m$为$a_1,a_2,\ldots a_m$的一个线性组合，$c_1,c_2,\ldots ,c_m$称为系数
+            \end{definition}
+            对比子空间的概念，我们知道 $a_1,a_2,\ldots,a_m$这组向量组的所有线性组合的集合构成一个线性空间，并且容易证明，这个线性空间一定是$V$的一个子空间，于是我们引入张成空间的概念：
+            \begin{definition}{张成空间与线性表出}{span}
+            我们称线性空间$V$的子空间$\{c_1a_1+c_2a_2+\ldots +c_ma_m, c_1,c_2,\ldots ,c_m\in F\}$为向量组$a_1,a_2,\ldots,a_m$所张成的空间，记作：$span(a_1,a_2,\ldots,a_m)$。
+            
+            反之，如果$V$中的向量$\beta$，存在一组数域$F$的数$k_1,k_2,\ldots ,k_m$，使得$\beta=k_1a_1+k_2a_2+\ldots +k_ma_m$，则称$\beta$能被向量组$a_1,a_2,\ldots,a_m$线性表出
+            \end{definition}
+            
+            易得张成空间与线性表出是等价的：
+            
+            \begin{corollary}{张成空间与线性表出的等价性}{spanlinear}
+                \begin{equation*}
+                    \beta \in span(a_1,a_2,\ldots,a_m)\Longleftrightarrow \beta \textrm{能被向量组}a_1,a_2,\ldots,a_m \textrm{线性表出}
+                \end{equation*}
+            \end{corollary}
+            
+        \subsubsection{线性无关，基，维数}
+        对于$\textrm{能被向量组}a_1,a_2,\ldots,a_m \textrm{线性表出}$的向量$\beta$来说，一个很重要的问题在于其表示是否是唯一的。假设有两组数组$\{c_1,c_2,\ldots ,c_m \},\{d_1,d_2,\ldots ,d_m \}$，使得：
+            \begin{align}
+                \begin{split}
+                    \beta =&c_1a_1+c_2a_2+\ldots +c_ma_m\\
+                    \beta =&d_1a_1+d_2a_2+\ldots +d_ma_m\\
+                \end{split}
+            \end{align}
+            
+        两式相减，可得：
+            \begin{equation}
+                0=(c_1-d_1)a_1+(c_2-d_2)a_2+\ldots +(c_m-d_m)a_m
+            \end{equation}
+        
+        上式可以认为是向量组$a_1,a_2,\ldots,a_m $对零元的表达。考虑到线性空间中零元一般是唯一的，因此我们希望上式对于任何符合要求的$c_i,d_i$恒成立（也就是说向量组$a_1,a_2,\ldots,a_m $是一个性质”好“的向量组），于是只有：
+            \begin{equation}
+               c_1=d_1;c_2=d_2,\ldots;c_m=d_m
+            \end{equation}
+            
+        因此，由零元的表达唯一，我们就可以推出任何线性空间内的向量在”好“向量组$a_1,a_2,\ldots,a_m $下的表达都应该是唯一的。这种想法与集合中元素必须要满足唯一表达的原因类似，否则我们无法对集合中的元素建立映射。由”好“向量组，我们引出线性无关的概念：
+        \begin{definition}{线性相关与线性无关}{linearindependent}
+        如果$c_1a_1+c_2a_2+\ldots +c_ma_m$成立当且仅当$c_1=c_2=\cdots=c_m=0$，则称向量组$a_1,a_2,\ldots,a_m$线性无关；反之，如果存在一组不全为0的数组$d_1,d_2,\ldots ,d_m$，使得$d_1a_1+d_2a_2+\ldots +d_ma_m=0$，则称向量组$a_1,a_2,\ldots,a_m$线性相关
+        \end{definition}
+        
+        我们现在已经知道线性无关的向量组的表达是唯一的，这是描述线性空间的基础。如果我们需要描述线性空间V话，我们最朴素的想法在于选取尽可能少的元素来得到线性空间V的全部信息（这个想法对应在集合论中叫做集合的代表）。因此我们希望选取一组线性无关的向量组的同时这一组向量组还能张成V。前面一条保证了V的每一个向量都能被唯一表示（唯一性）；后面一条确保V中每一个向量都能被这一组向量组表示（遍历性）。由此我们定义了基的概念：
+        \begin{definition}{基}{basis}
+        如果线性空间V上的一个向量组线性无关的同时又能张成线性空间V，则称这个向量组是线性空间V上的一组基
+        \end{definition}
+        
+        现在我们做进一步考虑。如果V中所有的向量都可以被向量组$a_1,a_2,\cdots ,a_m$线性表出，但是$a_1,a_2,\cdots,a_m$是线性相关的。根据前面的讨论，当我们想用$a_1,a_2,\cdots,a_m$描述线性空间V中的向量时，它的表示不是唯一的。但是按照基的想法，我们希望寻找$a_1,a_2,\cdots,a_m$的一个部分组$a_{i_1},a_{i_2},\cdots,a_{i_m} (i_m\leq m)$，这个部分组是线性无关的，但是这个部分组同样能够张成V\footnote{换句话说，部分组组$a_{i_1},a_{i_2},\cdots,a_{i_m}$是V的一组基}。可以想象，这个部分组一定是向量组的临界情况：即只要往部分组里加任意一个向量进去，加入新向量后的新部分组一定线性相关。于是我们得到极大线性无关组的概念：
+        \begin{definition}{极大线性无关组}{maxlinearinde}
+            如果线性空间V向量组$a_1,a_2,\cdots,a_m$的一个部分组$a_{i_1},a_{i_2},\cdots,a_{i_m}$满足：
+            \begin{itemize}
+                \item 这个部分组线性无关
+                \item 从这个向量组的其它向量中任意选一个加入这个部分组，新的部分组是线性相关的
+            \end{itemize}
+            
+            则称这个部分组为极大线性无关组。
+        \end{definition}
+        对比定义\ref{def:maxlinearinde}和定义\ref{def:basis}我们可以很直观的发现极大线性无关组就是空间V的一组基，但是很自然的产生了另一个问题：线性空间中的基并不是唯一的，那么不同基之间有什么共性吗？我们考虑空间V的两组基$B_1,B_2$，如果我们认为$B_1$是极大线性无关组，$B_2$张成空间V，那么两者的向量组的长度一定满足$B_1\leq B_2$；反之，如果$B_1$张成空间V，$B_2$是极大线性无关组，那么$B_2\leq B_1$，于是一定有$B_1=B_2$。即线性空间V中任意一组基的长度都是相等的，由此我们定义维数：\footnote{由于当向量组的长度为无穷时不能按照上述方法进行比较，因此本笔记中不考虑无穷维数的情况}
+        \begin{definition}{维数}{dimention}
+            有限维空间V的任意基的长度称为V的维数，记作dimV
+        \end{definition}
+        
+        如此，我们就得到了描述线性空间的第一种途径：选取V上的一组基，由此V上的每一个向量都可以被这组基的线性组合唯一表示。同时空间的维数保证了基选取的任意性和等价性。
+    \subsection{子空间的交、和与直和}
+    本节，我们想探究如何从子空间出发研究线性代数的结构。从直觉上来讲，如果关系是从部分到整体的话，往往在最后会出现将不同部分组合起来看的情况。举一个例子，当我们利用分离变量法求解微分方程时，求解出分离变量后的特征值方程的通解以后，为了得到原来微分方程的通解，我们的方法就是将所有特征值方程的通解进行叠加。我们知道，线性空间V的本质就是一个集合，在高中的时候我们学习了不同集合之间的运算关系，即集合的交与并。集合的交和并可以缩小或者扩大集合，这正是我们希望得到的。那么更进一步，我们自然希望线性空间V的子空间的交和并仍然具有一个好的结构，即它仍然是V的子空间。这样保证了相同的运算规律为我们处理问题带来了方便。
+    
+    首先我们看一下两个线性子空间的交是不是子空间。设V的两个不相同的子空间$V_1,V_2$，任取$V_1\bigcap V_2$的两个元素$\alpha,\beta$，下面我们注意对照线性空间的性质验证。首先，$0\in V_1\bigcup V_2。$ 由于$\alpha,\beta\in V_1\bigcap V_2$，那么$\alpha,\beta\in V_1\textrm{且}\alpha,\beta\in V_2$。由于子空间的加法对$V_1,V_2$封闭，因此$\alpha+\beta\in V_1\textrm{且}\alpha,\beta\in V_2$。同理，我们可以验证数乘运算同样对$V_1\bigcap V_2$封闭；于是两个子空间的交是一个子空间。进一步，我们可以利用数学归纳法推广这个定理，即：
+    \begin{theorem}{子空间的交是子空间}{cupissubspace}
+    设$I$是一个指标集，对于每一个$i\in I$，$V_i$是$V$的子空间，令：
+    \begin{equation}
+        \bigcap_{i=1}V_i=\{\alpha\in V|\alpha\in V_i,i\in I\}
+    \end{equation}
+    
+    则$\bigcap_{i=1}V_i$是一个子空间。
+    \end{theorem}
+    
+    但是，子空间的并一般不是一个子空间。比如在一个平面中选取任意两条直线$l_1,l_2$，分别取$l_1,l_2$上的两个向量，记作$\gamma_1,\gamma_2$，显然$\gamma_1+\gamma_2\notin l_1\cup l_2$。我们的想法是构造一个扩大集合的工具，于是我们可以定义一个运算使得运算后的集合既包含子空间的并又是一个子空间。由上面的反例我们可以得到一点启示，因为任意两条直线的并只是两条直线，而如果我们要得到子空间的话，由于加法运算的存在，最小包含$l_1\cup l_2$的子空间应该是这两条直线上任意向量张成的平面。换句话说，我们的目标应该在定义中保证线性空间中加法运算的成立。于是我们定义子空间和的概念：\begin{definition}{两个子空间的和}{sumof2subspace}
+        设线性空间$V$的两个不相同的子空间$V_1,V_2$，其中$\alpha_1\in V_1,\beta\in V_2$，于是我们构造下列集合：
+        \begin{equation}
+            V_1+V_2 :=\{\alpha+\beta|\alpha_1\in V_1,\beta\in V_2\}
+        \end{equation}
+        
+        我们称$V_1+V_2$为子空间$V_1\textrm{与}V_2$的和。
+    \end{definition}
+    
+    通过对比子空间的性质，我们可以简单得到$V_1+V_2$是$V$的一个子空间。我们同样可以利用数学归纳法推广到$n$个子空间的情况：
+    \begin{theorem}{n个子空间的和}{sumofnsubspace}
+    对于$V$的子空间$V_1,V_2,\dots,V_n$，下列集合：
+    \begin{equation}
+        \sum_{i=1}^n V_i=V_1+V_2+\dots+V_n:=\{\alpha_1+\alpha_2+\dots+\alpha_n|\alpha_1\in V_1,\alpha_2\in V_2,\dots,\alpha_n\in V_n\}
+    \end{equation}
+    则$\sum_{i=1}^n V_i$一定是$V$的一个子空间。
+    \end{theorem}
+    
+    我们根据子空间的和从而将不同的子空间组合到了一起，但是子空间中的和中向量的表示不唯一。比如下图中的向量$\Vec{a}$，既可以表示为$\Vec{b_1}+\Vec{c_1}$，又可以表示为$\Vec{b_2}+\Vec{c_2}$
+    %缺少一张图片
+    
+    于是我们自然想到：能不能对子空间的和这个概念加一些额外的限制条件使得向量能被唯一表示。观察下图的例子，如果直线$l$不在平面$\pi$内，那么我们可以发现，空间中任意一个向量$\Vec{b}$都可以唯一的表示为直线$l\textrm{上的某个向量}\Vec{a_1}$和平面$\pi\textrm{上的某个向量}\Vec{a_2}$的和。于是我们自然的引入了直和的概念：
+    \begin{definition}{直和的直观定义}{directsum}
+        如果$V$的子空间$V_1,V_2,\dots,V_n$的和$V_1+V_2+\dots+V_n$中的每一个元素都可以被唯一的表示，那么称和$V_1+V_2+\dots+V_n$为直和，记作$V_1\oplus V_2\oplus\dots\oplus V_n$
+    \end{definition}
+
+    事实上，唯一表示的概念出现在之前对线性代数线性无关的讨论中，我们可以知道线性无关概念的引入是基于线性空间中0元的表示是唯一而得来的，因此我们自然可以猜测以下有关0元与基的命题等价\footnote{这里为了证明的便利，我们写出2个子空间直和的定理，n个子空间直和的定理可以通过数学归纳法证明}：
+    \begin{theorem}{两个子空间的直和的等价命题}{directsum}
+        \begin{enumerate}
+            \item $V_1+V_2$是直和
+            \item $V_1+V_2$中0元表示方法唯一。即$\alpha_1+\alpha_2=0,\alpha_1\in V_1,\alpha_2\in V_2\Longleftrightarrow\alpha_1=\alpha_2=0$
+            \item $V_1\cap V_2=\{0\}$
+            \item $V_1$的一个基和$V_2$的一个基合起来是$V$的一个基
+        \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+    $(1)\Rightarrow(2)$：由直和的定义可以立即得到；
+    
+    $(2)\Rightarrow(3)$:任取$\alpha\in V_1\cap V_2$，则有$\alpha\in V_1\textrm{并且}\alpha\in V_2$，由于$V_2$是$V$的子空间，于是$-\alpha\in V_2$，于是一定有关系：
+    \begin{equation}
+        \alpha +(-\alpha)=0 ,\alpha\in V_1;-\alpha\in V_2
+    \end{equation}
+    
+    可以发现，上式满足命题(2)，于是$\alpha=0$
+    
+    $(3)\Rightarrow(1)$:要想证明$V_1+V_2$是直和，也即证明$V_1+V_2$中所有元素能被唯一的表示。我们与线性无关的引入类似，采用反证法证明。假设$V_1+V_2$中任意一个元素$\alpha$有两种表示：
+    \begin{align}
+        \begin{split}
+            \alpha=\alpha_1+\alpha_2,\alpha_1\in V_1,\alpha_2\in V_2\\
+            \alpha=\beta_1+\beta_2,\beta_1\in V_1,\beta_2\in V_2
+        \end{split}
+    \end{align}
+       
+    于是$\alpha_1+\alpha_2=\beta_1+\beta_2$，即$\alpha_1-\beta_1=\alpha_2-\beta_2$。我们发现等号左边的元素属于$V_1$，等号右边的元素属于$V_2$，于是$\alpha_1-\beta_1\in V_1\cup V_2,\alpha_2-\beta_2\in V_1\cap V_2$。根据命题(3)，我们知道$\alpha_1=\beta_1;\alpha_2=\beta_2$，即$\alpha$的表示方法唯一。
+    
+    $(2)\Rightarrow(4)$:假设$\eta_1,\eta_2,\dots,\eta_m$是$V_1$上的一组基，$\xi_1,\xi_2,\dots,\xi_n$是$V_2$上的一组基，我们需要证明$\eta_1,\eta_2,\dots,\eta_m,\xi_1,\xi_2,\dots,\xi_n$是$V$上的一组基，也即我们需要证明$\eta_1,\eta_2,\dots$,\\$\eta_m,\xi_1,\xi_2,\dots,\xi_n$线性无关并且张成空间$V$。
+    
+    首先证明线性无关，即证明下式成立：
+    \begin{align}\label{equA:equ}
+        \begin{split}
+             a_1\eta_1+a_2\eta_2+\dots+a_m\eta_m+b_1\xi_1+b_2\xi_2+\dots+b_n\xi_n=0\\
+             \Rightarrow a_1=a_2=\dots=b_1=b_2=\dots=b_n=0
+        \end{split}
+    \end{align}
+       
+
+    
+    根据命题(2)，我们有：
+    \begin{align}
+        \begin{split}
+            a_1\eta_1+a_2\eta_2+\dots+a_m\eta_m=&0\Rightarrow a_1=a_2=\dots=a_m=0\\
+            b_1\xi_1+b_2\xi_2+\dots+b_n\xi_n=&0 \Rightarrow b_1=b_2=\dots=b_n=0
+        \end{split}
+    \end{align}
+    
+    于是\ref{equA:equ}一定成立。下面讨论上述基能否张成空间$V$。由子空间和的定义，$V$中的任意一个元素$\alpha$一定可以表示为$V_1$上的一个元素$\alpha_1$和$V_2$上的一个元素$\alpha_2$之和。由于$\eta_1,\eta_2,\dots,\eta_m$是$V_1$上的一组基，因此$\alpha_1$一定可以被$\eta_1,\eta_2,\dots,\eta_m$线性表出；同理$\alpha_2$也一定可以被$\xi_1,\xi_2,\dots,\xi_n$线性表出。因此$\alpha$一定可以被$\eta_1,\eta_2,\dots,\eta_m,\xi_1,\xi_2,\dots,\xi_n$线性表出，证毕。
+    
+    $(4)\Rightarrow(2)$:我们最后需要考虑$V_1+V_2$上的零元的表示：$\alpha_1+\alpha_2=0.\alpha_1\in V_1,\alpha_2\in V_2$。于是对于下式：
+    \begin{equation}
+        0= (a_1\eta_1+a_2\eta_2+\dots+a_m\eta_m)+(b_1\xi_1+b_2\xi_2+\dots+b_n\xi_n)
+    \end{equation}
+    
+    其中$\eta_1,\eta_2,\dots,\eta_m$是$V_1$上的一组基，$\xi_1,\xi_2,\dots,\xi_n$是$V_2$上的一组基，根据命题(4)，我们知道$\eta_1,\eta_2,\dots,\eta_m,\xi_1,\xi_2,\dots,\xi_n$是$V$上的一组基，于是我们知道$a_1=a_2=\dots=b_1=b_2=\dots=b_n=0$，证毕。
+    \end{proof}
+    
+    经过上述循环证明，我们就得到了上述命题之间相互等价。我们可以通过数学归纳法，将上述定理推广到n个子空间的直和的情况，此时最重要的结论就是直和与子空间上基的关系：
+    \begin{theorem}{有限个子空间直和与子空间基的关系}{directsumandbasis}
+        $V=V_1\oplus V_2 \oplus \dots \oplus V_n\Longleftrightarrow V_i$的一组基合起来是$V$的一组基
+    \end{theorem}
+    
+    定理\ref{thm:directsumandbasis}告诉我们，我们可以通过将$V$分解为若干子空间的直和，并且研究子空间的性质再合并的方法研究线性空间。那么很自然的问题在于如何分解子空间呢？这个问题将在学习了集合的划分以及特征值以后得到解答。
+    \subsection{集合的划分，等价关系和商空间}
+   另一种处理线性空间的方法与集合的划分息息相关，换而言之我们希望对某一个整体进行合理的分类。首先通过一个例子引入相关的概念。生活中，我们往往会利用星期的概念对时间长河中的日子进行分类。如果使用数学语言描述这种现象，也就是将日子一一映射到整数集上。如果假设2021年1月10日对应数字0，那么其余日子就能分别对应其它数字了。我们定义星期几为这个日子对应数字被7除的余数，假设被7除余i的集合为$H_i,i=0,1,\dots,6$，那么整数集可以表示为：
+   \begin{equation}
+       \mathbb{Z}=H_0\cup H_1\cup \dots \cup H_6
+   \end{equation}
+   
+   其中$H_i=\{7k+i|i=0,1,2,3,4,5,6;k\in\mathbb{Z}\}$。同时可以发现，当$i\ne j$时，$H_i\cap H_j=\emptyset$，由此我们可以抽象出集合的划分的概念：
+   \begin{definition}{集合的划分}{setpartition}
+       如果集合$S$是它的一些非空子集的并集，并且这些非空子集两两不相交，那么我们称这些非空子集组成的集合是集合$S$的一个划分。
+   \end{definition}
+   
+   在星期的例子中，$\{H_0,H_1,H_2,H_3,H_4,H_5,H_6\}$是整数域$\mathbb{F}$的一个划分。
+   
+   在给出了集合的划分的概念后，下一个问题就是如何构造一种通用的划分集合的方法。我们从集合中的元素与划分后的非空子集间的关系入手。在星期的例子中，我们知道如果元素a,b同时处在同一个子集中当且仅当a与b被7除的余数相同，我们简称为a与b模7同余，记作$a\equiv b(mod7)$。同时我们称模7同余是$\mathbb{Z}$上的一个二元关系，在数学中，我们采用笛卡尔积来描述一个二元数组，于是元素a与b模7同余当且仅当：
+   \begin{equation}
+       (a,b)\in (H_0\times H_0)\cup (H_1\times H_1)\cup \dots \cup (H_6\times H_6)
+   \end{equation}
+   
+   由于$(H_0\times H_0)\cup (H_1\times H_1)\cup \dots \cup (H_6\times H_6)$是$\mathbb{Z}\times\mathbb{Z}$的一个子集，我们记作$W$，于是元素a与b模7同余当且仅当$(a,b)\in W$，于是我们可以抽象出集合上的二元关系的定义：
+   \begin{definition}{二元关系}{binaryrelation}
+       对于非空集合$S$，我们称$S\times S$的一个非空子集$W$为集合$S$上的一个二元关系。如果对于$a,b\in S$，$(a,b)\in W$，则称$a,b$满足$W$关系，记作$a\sim b$；反之，如果$(a,b)\notin W$，则称$a,b$不满足$W$关系。
+   \end{definition}
+   
+   进一步，观察模7同余这个二元关系，我们发现它满足以下三条性质：
+   \begin{align}
+       \begin{split}
+           a\equiv& a(mod7)\\
+          a\equiv b(mod7)&\Rightarrow b\equiv a\\
+          a\equiv b(mod7),b\equiv c(mod7)&\Rightarrow a\equiv c(mod7)
+       \end{split}
+   \end{align}
+   
+   于是我们可以将其抽象得到等价关系的概念。
+   \begin{definition}{等价关系}{equivrelation}
+       定义$\sim$是$S$上的一个二元关系，如果$\sim$满足以下三条性质：\\
+           (反身性) $a\sim a,\forall a\in S$\\
+           (对称性) $a\sim b \Rightarrow b\sim a$\\
+           (传递性) 若$a\sim b,b\sim c$，则$a\sim c$\\
+       我们称$\sim \textrm{是}S$上的一个等价关系
+   \end{definition}
+   
+   在星期的例子中，星期日是模7余0日子组成的集合，我们称为$\bar{0}$，其它集合也有类似的定义，于是我们可以抽象出等价类的概念：
+   \begin{definition}{等价类与商集}{Equivalenceclass}
+   设$\sim$是$S$上的一个等价关系，我们定义集合：
+   \begin{equation}
+       \bar{a}:=\{x\sim a,a\in S\}
+   \end{equation}
+   
+   我们称$\bar{a}$为$a$的等价类，$a$称为$\bar{a}$的一个代表。同时我们称所有等价类组成的集合称为$S$的一个商集，记作$S/\sim$。
+   \end{definition}
+   
+   如此定义后，我们发现在星期的例子中商集正好构成了$\mathbb{Z}$的一个划分，于是我们自然有以下定理：
+   \begin{theorem}{等价类对集合划分}{partitionequivclass}
+       设$\sim$是$S$上的一个等价关系，那么所有等价类组成的集合构成了$S$的一个划分。
+   \end{theorem}
+   
+   \begin{proof}
+   从定义出发，商集如果要成为一个划分，必须满足两个性质：商集中的元素之并等于$S$并且这些不相等的元素两两不相交。
+   
+   首先证明$\cup_{a\in S}\bar{a}=S$。首先根据定义，我们可以立即知道$\cup_{a\in S}\bar{a}\subseteq S$；同时，我们知道$\forall b\in S,b\in \bar{b}$，于是$b\in \cup_{a\in S}\bar{a}$，所以$S\subseteq \cup_{a\in S}\bar{a}$，因此$\cup_{a\in S}\bar{a}=S$。
+   
+   在证明不相等的商集中的元素两两不相交之前，我们需要首先了解以下相等的商集有什么性质，于是有以下引理：
+   \end{proof}
+   \begin{lemma}{相等的商集性质}{1}
+   $\bar{a}=\bar{b}\Longleftrightarrow a\sim b$
+   \end{lemma}
+ \begin{proof}
+   必要性：如果$\bar{a}=\bar{b}$，由于$a$是$\bar{a}$的一个代表，即$a\in \bar{a}$，于是$a\in \bar{b}$，根据等价类的定义，$a\sim b$；
+   
+   充分性：一般来说，常见的证明两个集合$A,B$相等就相当于分别证明$A$是$B$的子集同时$B$是$A$的子集。而$A$是$B$的子集相当于证明$\forall x\in A$，都有$x\in B$。
+   
+   在本证明中，由于$a\sim b,\forall c\in \bar{a}$，都有$c\sim a$，根据等价关系的传递性：$c\sim a,a\sim b$可以得到$c\sim b$，于是$c\in \bar{b}$。从而说明$\bar{a}\subseteq\bar{b}$；然后由于等价关系中的对称性，于是我们可以知道$b\sim a$，于是按照上面类似的步骤可知$\bar{b}\subseteq\bar{a}$
+   
+   随后我们可以证明不相等的商集中的元素两两不相交了：
+ \end{proof}
+   
+   \begin{lemma}{不相等的商集元素两两不相交}{2}
+  $\bar{a}\ne \bar{b}\Rightarrow\bar{a}\cap\bar{b}=\emptyset$
+   \end{lemma}
+   \begin{proof}
+   这里我们使用反证法：假设$\bar{a}\cap\bar{b}=\emptyset$，那么一定存在一个元素$c\in \bar{a}
+   \cap \bar{b}$，那么$c\in \bar{a},c\in \bar{b}$。利用等价类的定义我们可以得到$c\sim a,c\sim b$，于是$a\sim b$，根据引理\ref{lem:1}，得到$\bar{a}=\bar{b}$，与题目条件矛盾，于是原命题成立。
+   \end{proof}
+   
+   综上所述，在集合$S$上定义一个等价关系，那么等价关系导出的商集中的元素构成了$S$的一个划分，这是数学上对任意一个集合进行划分的普遍办法，在群论中也会用到类似的方法。
+   
+   那么迁移到线性代数的框架中，如果我们要划分一个线性空间$V$，我们需要在其上找到一个二元关系，如果它是$V$上的一个等价关系，那么这个关系对应的商集构成了$V$的一个划分。
+   
+   如何构造这个等价关系呢？我们观察几何空间的例子。对于三维空间，我们可以将一组平行平面构成三维几何空间的一组划分，因为所有平行平面加起来等于整个平面同时两两不相交。我们考虑这个例子的性质，我们首先找到对应的等价类，我们令此时过原点的平面为$\pi_0$，可以发现，所有等价类中只有$\pi_0$是三维空间的子空间，性质较好，因此我们尽量让定义的二元关系与$\pi_0$有关。我们选择平行于$\pi_0$的平面$\pi$上的两个点$b_1,b_2$，根据向量的减法，我们知道$\Vec{b_1},\Vec{b_2}$两个向量处于同一个平面当且仅当$\Vec{b_2}-\Vec{b_1}\in \pi_0$\footnote{这里很显然空间上的每个点总是可以和某个从原点引出到该点的向量一一对应的，因此我在描述的时候混用了两个概念}。于是我们可以抽象出这个二元关系：
+   \begin{definition}{线性空间上的二元关系}{linearrelationonvecspace}
+   令线性空间$V$的一个子空间为$W$，则可以定义二元关系如下：
+   \begin{equation}
+       \alpha\sim\beta\Longleftrightarrow \alpha-\beta \in W
+   \end{equation}
+   \end{definition}
+   
+   我们得到了线性空间上的一个二元关系，同时可以简单验证这个二元关系一定是等价关系：首先，由于$\alpha-\alpha=0\in W$，因此$\alpha\sim\alpha$，满足反身性；其次如果$\alpha\sim \beta$，根据定义有$\alpha-\beta\in W$根据线性空间的定义，该矢量一定有逆元$\beta-\alpha\in W$，因此$\beta\sim \alpha$，对称性满足；最后，由于$\alpha\sim\beta,\beta\sim \gamma$，因此一定有$\alpha-\beta+\beta-\gamma=\alpha-\gamma\in W$，即$\alpha\sim \gamma $，传递性满足。于是我们可以得到$\sim$是$V$上的一个等价关系。
+   
+   随后我们讨论这个等价关系对应等价类的形式：
+   \begin{align}
+       \begin{split}
+           \bar{\alpha}=&\{\beta\in V|\beta\sim\alpha\}\\
+           =&\{\beta\in V|\beta-\alpha\in W\}\\
+           =&\{\beta\in V|\beta-\alpha=\gamma,\gamma\in W\}\\
+           =&\{\beta=\alpha+\gamma,\gamma\in W\}\\
+           :=& \alpha + W
+       \end{split}
+   \end{align}
+   
+   我们称$\alpha+ W$为子空间$W$的一个陪集，$\alpha$自然是这个陪集的一个代表。因此线性空间商集就是子空间$W$陪集的集合，记作$V/W$，即：
+   \begin{equation}
+       V/W=\{\alpha+W,\alpha\in V\}
+   \end{equation}
+   
+   按照$V/W$中的元素，我们获得了线性空间$V$的划分方法，但是这个划分并不能从实际操作上完全解决我们研究线性空间的困难，我们需要知道这个商集有什么更好的性质。自然的，我们考虑$V/W$是不是一个线性空间。
+   
+   首先根据直觉定义$V/W$上的运算：
+   \begin{align}
+   \begin{split}
+       (\alpha +W)+(\beta+W):=&(\alpha+\beta)+W\\
+       k(\alpha+W):=& (k\alpha)
+   \end{split}
+   \end{align}
+   
+   但是这样定义存在隐患：因为我们的定义是基于陪集上的代表的，但是显然陪集的代表并不唯一。因此我们需要证明陪集代表的选择不影响我们定义的运算。
+   
+   首先讨论加法，如果$\alpha +W=\delta +W,\beta+W=\eta+W$，根据等价关系的定义，我们知道$\alpha-\delta\in W,\beta-\eta\in W$，于是$(\alpha-\delta)+(\beta-\eta)\in W$，即$(\alpha+\beta)-(\delta+\eta)\in W$。根据定义则有：$(\alpha+\beta)\sim(\delta+\eta)$，即$(\alpha+\beta)+W=(\delta+\eta)+W$。这个式子告诉我们，对于同一等价类来说，选择不同的代表不影响加法的定义。同理对于数乘也有类似的结论。
+   
+   基于我们定义的加法与数乘，我们可以很容易的验证加法的交换律，结合律；数乘的分配律和结合律，同时可以简单看出$W$是$V/W$的零元，于是我们就证明了$V/W$是一个线性空间，我们称之为$V$相对于$W$的商空间：
+   \begin{definition}{商空间}{quotientspace}
+   由线性子空间$W$在线性空间$V$上导出的商集定义为$V/W=\{\alpha+W|\alpha\in V,W\subseteq V\}$是一个线性空间，我们称之为商空间。
+   \end{definition}
+   
+   在得到了商空间的概念后，我们就可以利用商空间$V/W$中的一组基来研究商空间了。这个时候我们还是考虑三维空间的集合划分问题，此时我们发现由商集导出的向量子空间(即$\alpha+W$中的向量$\Vec{\alpha}$)与子空间$W$正好构成原空间$V$，因此我们能够猜测商空间$V/W$，子空间$W$和线性空间$V$的基与维数存在一定的关系，下面的定理就很好的说明了这点：
+   \begin{theorem}{商空间与线性空间的维数和基的关系}{quotientspaceproperty}
+       设$V$是数域$\mathbb{F}$上的线性空间，$W$是$V$的一个子空间。如果商空间$V/W$上的一组基为$\beta_1+W,\beta_2+W,\dots,\beta_t+W$，那么令$U=\langle\beta_1,\beta_2,\dots,\beta_t\rangle$，则有$V=W\oplus U$，并且$\beta_1,\beta_2,\dots,\beta_t$是$U$上的一组基。
+       
+       同时维数存在关系：$dimV=dimW+dimV/W$
+   \end{theorem}
+   \begin{proof}
+        证明分为2个部分：证明直和以及证明$\beta_1,\beta_2,\dots,\beta_t$是线性无关的。
+        
+        首先证明直和。直和的证明同样分为两个部分：证明$U+W=V$以及$U\cap W=\{0\}$。首先证明$U+W=V$，我们采用两边夹的方式证明，由于$V\supseteq U+W$是显然的，因此我们只需要证明$V\subseteq U+W$，也即$\forall \alpha\in V,\exists \beta\in U,\gamma\in W$，同时满足$\alpha=\beta+\gamma$。根据商空间的定义，由于$\beta_1+W,\beta_2+W,\dots,\beta_t+W$是商空间$V/W$上的一组基，因此$\forall \alpha\in V$，总有关系：
+        \begin{equation}
+            \alpha+W=l_1(\beta_1+W)+l_2(\beta_2+W)=\dots+l_t(\beta_t+W)
+        \end{equation}
+        
+        根据等价类的定义，我们可以得到$\alpha-(l_1\beta_1+l_2\beta_2+\dots+l_t\beta_t)\in W$，令$\beta=l_1\beta_1+l_2\beta_2+\dots+l_t\beta_t$，则有$\alpha-\beta\in W$，即$\exists \gamma\in W$，$\alpha-\beta=\gamma$，因此满足和的关系$V=W+U$。
+        
+        下面证明及$U\cap W=\{0\}$。假设$\exists \delta\in U\cap W$，则$\delta\in W,\delta\in U$，因此$W=\delta+W$，由于$\beta_1+W,\beta_2+W,\dots,\beta_t+W$是商空间$V/W$上的一组基。因此$W=\delta+W=(a_1\beta_1+W)+(a_2\beta_2+W)+\dots+(a_t\beta_t+W)$，由于基的线性无关，因此$a_1=a_2=\dots=a_t=0$，即$\delta=0$，证毕。
+        
+        随后证明$\beta_1,\beta_2,\dots,\beta_t$是$U$上的一组基。根据$U$的定义，我们只需要证明$\beta_1,\beta_2,\dots,\beta_t$线性无关即可。考虑线性组合$\alpha=l_1\beta_1+l_2\beta_2+\dots+l_t\beta_t$，根据等价类的定义，一定有$\alpha+W=\alpha+W=l_1(\beta_1+W)+l_2(\beta_2+W)=\dots+l_t(\beta_t+W)$，由于商空间的基线性无关，因此$l_1=l_2=\dots=l_t=0$，证毕。
+   \end{proof}
+   
+   综上所述，我们从线性空间的划分开始，可以通过商空间对线性空间进行处理，这是我们研究线性空间的第三种方法。
+\section{线性映射}
+我们从以下几个方面研究线性映射：
+\begin{enumerate}
+    \item 线性映射的运算与整体结构
+    \item 线性映射的核与像(即零空间与值域)
+    \item 线性映射的矩阵表示
+    \item 域$\mathbb{F}$上的线性泛函，即对偶空间
+\end{enumerate}
+
+其中第3点中还存在一个问题：对于某一个线性映射，其对应的最简单的矩阵形式是什么？这个问题将在下一章中阐述。
+
+\begin{remark}
+    在具体讲述之前规定一下符号：所有$V$到$W$的线性映射的集合用$Hom(V,W)$表示；映射用花体字母表示，如$\mathscr{A}$；元素用英语字母或者希腊字母表示。本附录中为了与群论衔接，采用映射的核$Ker(\mathscr{A})$和像$Im(\mathscr{A})$的书写习惯。
+\end{remark}
+    \subsection{线性映射的性质}
+    上一章我们讲述了线性空间的性质与描述方法，本章的主要目标是处理线性空间之间的对应关系，即映射。在数学中，最简单也是最常见的映射就是线性映射。所谓线性映射，从几何上来看，有两个基本性质\footnote{两个性质缺一不可，特别的是，如果只满足2，则称为仿射变换}：1、零点不动；2、所有的向量都只经过了伸缩和旋转，没有扭曲。我们首先通过几何空间上的一个例子来引出线性映射的定义。
+    
+    考虑平面上绕直角坐标系$xOy$的原点O旋转$\theta$的模型。假设平面上一点P在旋转前的坐标为(x,y)，旋转后的坐标为(x',y')，则坐标间存在对应关系：
+    \begin{align}
+        \begin{split}
+            x'=&x\cos{\theta}-y\sin{\theta}\\
+            y'=&x\sin{\theta}+y\sin{\theta}
+        \end{split}
+    \end{align}
+    
+    我们可以将其写成矩阵的形式：
+    \begin{equation}
+        \binom{x'}{y'}=\begin{pmatrix}
+            \cos{\theta} & -\sin{\theta}\\
+            \sin{\theta} & \sin{\theta}
+        \end{pmatrix}\binom{x}{y}=A\binom{x}{y}
+    \end{equation}
+    
+    于是我们可以定义旋转操作$\sigma$是$\mathbb{R}^2$到自身的一个映射：
+    \begin{equation}
+        \sigma:\binom{x}{y}\mapsto A\binom{x'}{y'}
+    \end{equation}
+    
+    可以验证，$\sigma$具有以下性质：
+    \begin{align}
+        \begin{split}
+            \sigma\Big[\binom{x_1}{y_1}+\binom{x_2}{y_2}\Big]=& A\Big[\binom{x_1}{y_1}+\binom{x_2}{y_2}\Big]\\
+            =&  A\binom{x_1}{y_1}+A\binom{x_2}{y_2}\\
+            =& \sigma\binom{x_1}{y_1}+\sigma\binom{x_2}{y_2}
+        \end{split}
+    \end{align}
+    \begin{align}
+        \begin{split}
+            \sigma\Big[k\binom{x}{y}\Big]=&A\Big[k\binom{x}{y}\Big]\\
+            =&k\Big[A\binom{x}{y}\Big]\\
+            =&k\Big[\sigma\binom{x}{y}\Big]
+        \end{split}
+    \end{align}
+    
+    上面两式分别被称为$\sigma$保持加法运算与保持数量乘法运算。于是我们可以说旋转$\sigma$是$\mathbb{R}^2$到自身保持加法运算与保持数量惩罚运算的一个映射。这个性质是非常本质的，由此我们引出线性映射的概念：
+    \begin{definition}{线性映射的定义}{linearmap}
+        设$V$和$W$是域$\mathbb{F}$上的两个线性空间，如果$V$到$W$的一个映射$\mathscr{A}$保持加法运算和保持数量乘法运算，即：
+        \begin{align}
+            \begin{split}
+                \mathscr{A}(x+y)=\mathscr{A}(x)+\mathscr{A}(y),x,y\in V\\
+                \mathscr{A}(kx)=k\mathscr{A}(x),k\in\mathbb{F},x\in V
+            \end{split}
+        \end{align}
+        
+        则称$\mathscr{A}$是一个线性映射。特别的，如果$\mathscr{A}$是$V\rightarrow V$的线性映射，则可以称$\mathscr{A}$是$V$上的线性算子或线性变换。
+    \end{definition}
+    
+    在了解了线性映射的定义以后，下面介绍一种通用的构造线性映射的方法：假设$dimV=n$，于是我们可以取$V$上的一组基$\gamma_1.\gamma_2,\dots,\gamma_n$，随后我们任取$W$的一组n元向量组$\delta_1.\delta_2.\dots,\delta_n$(向量组中可以存在重复的元素)，随后我们构造基的映射$\mathscr{A}(\gamma_i)=\delta_i$，这个时候由于$V$中任意一个向量$\alpha$都可以表示成$\gamma_1,\gamma_2,\dots,\gamma_n$的线性组合：$\alpha=\sum_{i=1}^n\alpha_i\gamma_i$，于是可以得到：
+    \begin{align}
+        \begin{split}
+            \mathscr{A}:V\rightarrow& W\\
+            \alpha=\sum_{i=1}^n\alpha_i\gamma_i\mapsto& \beta=\sum_{i=1}^n\alpha_i\delta_i
+        \end{split}
+    \end{align}
+    
+    可以简单验证$\mathscr{A}$对加法和数量乘法封闭，因此$\mathscr{A}$是一个线性映射。
+    
+    此外，观察到线性映射的加法与数量乘法和线性空间的定义非常相似，自然我们可以想到所有线性映射组成的集合是不是一个线性空间，我们将所有$V$到$W$的线性映射组成的集合记作$Hom(V,W)$。设$\mathscr{A},\mathscr{B}\in Hom(V,W)$，显然我们可以构造下列加法与数量乘法运算：
+    \begin{align}
+        \begin{split}
+            (\mathscr{A}+\mathscr{B})\alpha=&\mathscr{A}\alpha+\mathscr{B}\alpha\\
+            (k\mathscr{A})\alpha=&k(\mathscr{A}\alpha)
+        \end{split}
+    \end{align}
+    
+    简单验证可以知道上述构造加法满足分配律与结合律；数量乘法运算满足结合律与左右分配律，于是可以得到以下重要结论：
+    \begin{theorem}{线性映射的集合}{linearmapislinearspace}
+        $Hom(V,W)$是一个线性空间。
+    \end{theorem}
+    \subsection{线性映射的重要概念}
+        \subsubsection{线性空间的同构}
+        我们在线性空间部分提到过，利用集合的划分研究线性空间还能从等价类的代表来研究，那么究竟什么是等价的线性空间呢？这里引入同构映射的概念：
+        \begin{definition}{同构映射}{isomorphicmap}
+            设$V$和$W$是数域$\mathbb{F}$上的两个线性空间，$\mathscr{A}$是$V$到$W$的线性映射，如果$\mathscr{A}$是双射并且保持加法与数量乘法两种运算，则称$\mathscr{A}$是$V$到$W$的同构映射，此时称$V$和$W$是同构的，记作$V\cong W$
+        \end{definition}
+        
+        我们也可以这样理解：同构映射就是可逆的线性映射，$V$和$W$是同构的代表$V$和$W$的本质上是相同的。所谓“本质上相同”有什么条件呢？我们有如下定理：
+        \begin{theorem}{同构的条件}
+            数域$\mathbb{F}$上两个有限维线性空间同构的充分必要条件是它们维数相同。
+        \end{theorem}
+        \begin{proof}
+             必要性：令两个有限维空间$V$和$W$的同构映射$\sigma$，我取$V$上的一组基$\alpha_1,\dots,\alpha_n$,由于同构映射是一个一一对应的关系，我们可以很自然的猜测$\sigma(\alpha_1),\dots,\sigma(\alpha_n)$是$W$的一组基，那么$V,W$的维数自然相同。证明$\sigma(\alpha_1),\dots,\sigma(\alpha_n)$是$W$的一组基，还是按照定义证明：
+             
+             线性无关：由于$\alpha_1,\dots,\alpha_n$是V的一组基，因此$c_1\alpha_1+c_2\alpha_2+\dots+c_n\alpha_n=0$当且仅当$c_1=\dots=c_n=0$，对式子两边做映射$\sigma$操作即可证得。
+             
+             张成空间：即证明$\forall\gamma\in W$，$\gamma=c_1\sigma(\alpha_1)+\dots+c_n\sigma(\alpha_n)$。由于线性映射的性质，$\gamma=\sigma(c_1\alpha_1+\dots+c_n\alpha_n)$。对于$\forall \alpha\in V$，由于$\alpha_1,\cdots,\alpha_n$总存在若干常数，使得$\alpha=c_1\alpha_1+\dots+c_n\alpha_n$成立。那么问题就转化为了$\forall\gamma\in W,\exists \alpha\in V$使得$\gamma=\sigma(\alpha)$。这代表$\sigma$需要是满射，而$\sigma$是双射，由此证得。
+             
+             充分性：假设$dimV=dimW=n$，我们的目的是构造一个$V\rightarrow W$的双射，这里我分别取$V,W$的一组基为$\alpha_1,\dots,\alpha_n$和$\gamma_1,\dots,\gamma_n$，首先我们按照前面描述过的构造方式构造一个线性映射$\sigma$：
+             \begin{align}
+                 \begin{split}
+                     \sigma
+                 \end{split}
+             \end{align}
+
+        \end{proof}
+    \subsection{线性映射对应的矩阵}
+    
+    \subsection{对偶空间}
+    
+\section{线性算子}
+
+\section{具有度量的线性空间}
+

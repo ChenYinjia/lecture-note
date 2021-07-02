@@ -1,0 +1,161 @@
+\begin{introduction}
+    \item 变分法的基本原理
+    \item 例子：谐振子与四次势
+    \item 线性变分法
+\end{introduction}
+从本章开始，我们将会介绍两种Schrodinger方程的近似方法，即微扰理论和变分法。微扰理论基于已经有精确解的Schrodinger方程，我们将实际体系的Hamiltonian拆分成精确解对应的Hamiltonian和所谓的微扰Hamiltonian，后者在量级上是比前者作用小很多的。这种处理问题的方式是非常“物理”的：即我们突出物理模型的主要性质，在此基础上，我们再引入近似项，由此来考虑物理模型更“精细”的结构。但是问题也是很明显的，即必须要将体系的Hamiltonian分解为某个可以精确求解的Hamiltonian和某个微扰Hamiltonian的和。但是在很多体系中是难以拆分的；同时在后面我们可以发现，微扰法在考虑高阶波函数与能量近似时计算非常复杂。本节介绍的变分法是量子化学中更为常见的近似方法。
+\section{变分法的基本原理}
+所谓变分法，简单来说就是求解某一个泛函的极值。求解泛函的方法有很多种，在量子化学中，我们通常采用一种叫Ritzs变分法的方法。这类变分法的基本思想基于以下不等式：任意给定一个well-behaved的态$|\phi\rangle$(我们称之为试探变分函数，trial variation function)，都有\footnote{可以发现，试探函数$|\phi\rangle$的要求不高，只需要满足体系的边界条件即可，因此如果选择得当，其收敛速度远远比精确波函数快}：
+\begin{equation}\label{equ9:variationequ}
+    \frac{\langle \phi|\hat{H}|\phi\rangle}{\langle \phi|\phi\rangle}\geq E_0
+\end{equation}
+
+其中$\hat{H}$是体系的Hamiltonian，$E_0$是体系的基态能量。可以看出对于态空间任意的态，其能量的平均值一定不小于基态能量，下面给出证明。
+
+设体系的本征方程为：
+\begin{equation}
+    \hat{H}|\psi_n\rangle=E_n|\psi_n\rangle
+\end{equation}
+
+自然，$|\phi\rangle$可以写成本征态的线性组合：
+\begin{equation}
+    |\phi\rangle=\sum_n c_n|\psi_n\rangle
+\end{equation}
+
+于是则有
+\begin{align}
+    \begin{split}
+        \langle \phi|\hat{H}|\phi\rangle=&\sum_{m,n}c_m^*c_n\langle\phi_m|\hat{H}|\phi_n\rangle\\
+        =& \sum_{m,n}c_mc_n E_n \delta_{mn}\\
+        =& \sum_n |c_n|^2 E_n \\
+        \geq& \sum_n |c_n|^2 E_1 \\
+        =& E_1\langle \phi|\phi\rangle
+    \end{split}
+\end{align}
+
+移项即可得\ref{equ9:variationequ}式。进一步，如果$|\phi\rangle$含有参数$\alpha$，那么显然最接近基态能量$E_0$的能量平均值$\langle E(\alpha^*)\rangle$应该满足：
+\begin{equation}
+    \left.\frac{\partial \langle E(\alpha)\rangle}{\partial \alpha_i}\right|_{\alpha=\alpha^*}=0
+\end{equation}
+
+这样我们就可以得到该函数下最好的基态描述。如果试探函数选择得当，那么变分法可以得到非常精确的结果。
+\section{一个简单的例子}
+
+\section{线性变分法}
+上面是一些简单的例子，在实际研究中，试探函数的建立没有那么容易。由于我们希望试探函数的建立是基于一定的物理的，于是往往会将试探函数$|\phi\rangle$用多个线性无关的实函数$|f_i\rangle$展开来表示，即：
+\begin{align}
+    \begin{split}
+        |\phi\rangle=\sum_{i=1}^n c_i|f_i\rangle
+    \end{split}
+\end{align}
+
+上式代入\ref{equ9:variationequ}，可得：
+\begin{align}\label{equ9:linearvariation}
+    \begin{split}
+        \langle E\rangle=&\frac{\langle\phi|\hat{H}|\phi\rangle}{\langle\phi|\phi\rangle}\\
+        =&\frac{\sum_{i,j}^nc_ic_j\langle f_i|\hat{H}|f_j\rangle}{\sum_{i,j}^n c_ic_j\langle f_i|f_j\rangle}\\
+        \Rightarrow&\langle E\rangle\sum_{i,j}^n c_ic_jS_{ij}=\sum_{i,j}^n c_ic_jH_{ij}
+    \end{split}
+\end{align}
+
+可以看到，$\langle E\rangle$是含有参数$\{c_i\}$的，于是需要满足：
+\begin{equation}
+    \frac{\partial \langle E\rangle}{\partial c_k}=0,k=1,2,\dots,n
+\end{equation}
+
+于是我们考虑对\ref{equ9:linearvariation}式进行隐函数求偏导：
+\begin{equation}\label{equ9:A}
+     \frac{\partial\langle E\rangle}{\partial c_k}\sum_{i,j}^n c_ic_jS_{ij}+\langle E\rangle\frac{\partial}{\partial c_k}\Big(\sum_{i,j}^n c_ic_jS_{ij}\Big)=\frac{\partial}{\partial c_k}\Big(\sum_{i,j}^n c_ic_jH_{ij}\Big)
+\end{equation}
+
+其中$S_{ij}=\langle f_i|f_j\rangle$，称为重叠积分\footnote{为了保持连贯性，因此我这里仍然使用Dirac符号，但是实际我们计算的时候是采用积分形式的}；$H_{ij}=\langle f_i|\hat{H}|f_j\rangle$
+
+由于$S_{ij}$是常数，因此上式中的几项都可以化简：
+\begin{align}
+    \begin{split}
+        \frac{\partial}{\partial c_k}\Big(\sum_{i,j}^n c_ic_jS_{ij}\Big)=&\sum_{i,j}^n\frac{\partial}{\partial c_k}( c_ic_j)S_{ij}\\
+        =&\sum_{i,j}^n(\frac{\partial c_i}{\partial c_k}c_j+\frac{\partial c_j}{\partial c_k}c_i)S_{ij}
+    \end{split}
+\end{align}
+
+由于：
+\begin{equation}
+    \frac{\partial c_i}{\partial c_j}=\delta_{ij}
+\end{equation}
+
+于是：
+\begin{equation}
+    \sum_{i,j}^n(\frac{\partial c_i}{\partial c_k}c_j+\frac{\partial c_j}{\partial c_k}c_i)S_{ij}=\sum_j c_jS_{kj}+\sum_i c_i S_{ik}
+\end{equation}
+
+由于$S_{ij}$是一个内积形式，我们根据内积定义，结合内积是实数，可以知道：
+\begin{equation}
+    \langle f_i|f_j\rangle=(\langle f_j|f_i\rangle)^*=\langle f_j|f_i\rangle
+\end{equation}
+
+即：$S_{ij}=S_{ji}$，于是上式可以变为：
+\begin{equation}
+    \frac{\partial}{\partial c_k}\Big(\sum_{i,j}^n c_ic_jS_{ij}\Big)=\sum_j c_jS_{kj}+\sum_i c_i S_{ik}=2\sum_i c_i S_{ik}
+\end{equation}
+
+同理：
+\begin{equation}
+    \frac{\partial}{\partial c_k}\Big(\sum_{i,j}^n c_ic_jH_{ij}\Big)=\sum_j c_jS_{kj}+\sum_i c_i H_{ik}=2\sum_i c_i H_{ik}
+\end{equation}
+
+于是，\ref{equ9:A}式可以化简为：
+\begin{equation}\label{equ9:B}
+    \sum_i c_iH_{ik}-\langle E\rangle\sum_i c_iS_{ik}=0
+\end{equation}
+
+可以看到，上式是一个关于$\{c_i\}$的齐次线性方程组，我们知道，齐次线性方程组有非平凡解当且仅当系数行列式为0，即满足：
+\begin{equation}
+    \det(H-\langle E\rangle S)=0
+\end{equation}
+
+通过求解行列式我们可以得到$\langle E\rangle$的前n个解：$\langle E\rangle_1,\langle E\rangle_2,\dots,\langle E\rangle_n$，可以证明体系的能量与$\langle E\rangle$的关系为：
+\begin{equation}
+    E_1\leq \langle E\rangle_1, E_2\leq \langle E\rangle_2,\dots, E_n\leq \langle E\rangle_n
+\end{equation}
+
+因此，线性变分法的结果就是给出了体系前n级能量的上界(upper bound)。如果我们想要获得体系的更多级能量，在构造试探函数的时候就要用更多数量的函数$|f_i\rangle$展开，同时更完备的函数集可能会提高求解能量的精确性，但是可惜的是，由于计算机算力的限制，我们往往只能使用有限的基函数来代表完备集。
+
+特别的，如果$\{|f_i\rangle\}$是正交的，那么$S_{ij}=\langle f_i|f_j\rangle=\delta_{ij}$。因此\ref{equ9:B}式可以表示为：
+\begin{equation}
+     \sum_i c_iH_{ik}-\langle E\rangle c_k=0
+\end{equation}
+
+这也是一个线性齐次方程组，我们可以将其展开写成：
+\begin{align}
+    \begin{split}
+        H_{11}c_1+H_{12}c_2+\dots+H{1n}c_n=&\langle E\rangle c_1\\
+        H_{21}c_1+H_{22}c_2+\dots+H{2n}c_n=&\langle E\rangle c_2\\
+        \dots\dots\dots\dots\dots\\
+        H_{n1}c_1+H_{n2}c_2+\dots+H{nn}c_n=&\langle E\rangle c_n
+    \end{split}
+\end{align}
+
+可以明显看出，这个方程组可以写成本征方程的形式，即：
+\begin{equation}
+    Hc=\langle E\rangle c
+\end{equation}
+
+其中$H=\begin{pmatrix} H_{11}&H_{12}&\dots&H_{1n}\\H_{21}&H_{22}&\dots&H_{2n}\\ \dots&\dots&\dots&\dots\\H_{n1}&H_{n2}&\dots&H_{nn}\end{pmatrix},c=\begin{pmatrix}c_1\\c_2\\ \vdots\\c_n\end{pmatrix}$
+
+对于计算机来说，更好的求解方程组的手段是求解矩阵方程。因此我们换一种方式理解线性变分法的求解。令上述本征方程的n个本征值为$W_1,W_2,\dots,W_n$，本征态为$c^{i}$\footnote{注意，这是一个列矢量}，那么本征方程自然可以表达为：
+\begin{equation}
+    Hc^{(i)}=W_ic^{(i)},i=1,2,\dots,n
+\end{equation}
+
+显然，我们可以通过一个矩阵方程将上面n个本征方程组合并：
+\begin{equation}
+    HC=CW
+\end{equation}
+
+其中：
+$C=\begin{pmatrix}c_{1}^{(1)}&c_{1}^{(2)}&\dots&c_{1}^{(n)}\\c_{2}^{(1)}&c_{2}^{(2)}&\dots&c_{2}^{(n)}\\ \dots&\dots&\dots&\dots\\c_{n}^{(1)}&c_{n}^{(2)}&\dots&c_{n}^{(n)}\end{pmatrix},W=\begin{pmatrix}W_1&\quad&\quad&\quad\\ \quad&W_2&\quad&\quad \\ \quad&\quad&\ddots&\quad\\ \quad &\quad&\quad&W_n \end{pmatrix}$。组成矩阵C的向量集$\{c^{(i)}\}$是正交的，因此C一定可逆。如果H是Hermitian，则C是一定是幺正矩阵，那么矩阵方程就可以看作是将H矩阵对角化的过程：
+\begin{equation}
+    W=C^\dagger H C
+\end{equation}
+
+实际上，求解行列式的本质在于求解多项式的根，其坏处在于，如果对多项式的系数作微小的改变，最后的结果会相差很大。这就需要计算机对于多项式根的求解有非常高的灵敏度；而矩阵的对角化问题不仅抗扰动能力强，同时在数值计算中已经有比较成熟的处理方法了。因此，目前我们主要采取后者作为分析的主要方法。

@@ -1,0 +1,285 @@
+%CH7 定态微扰论
+\begin{introduction}
+    \item 非简并微扰论
+    \item 简并微扰论
+    \item 氢原子的$Starks$效应
+    \item 氢原子的精细结构
+    \item $Zeeman$效应
+\end{introduction}
+\section{微扰论概述}
+从本章开始，我们开始考虑另一种对$Schrodinger$方程的近似求解。从之前的内容中已经知道，即使是类似氢原子那样非常简单的势场，最终的求解仍然是非常复杂的，我们对$He$元素的方程求解已经无能为力，更不用说我们去讨论实际科研中运用到的多体的$Schrodinger$方程。因此寻找一种近似求解的方法是非常重要的。
+
+对于量子力学的定态$Schrodinger$方程，我们可以将$Hamiltonian$写作：
+\begin{equation}
+    \hat{H}=\hat{H_0}+\hat{H'}
+\end{equation}
+
+其中$\hat{H_0}$是可精确求解的$Hamiltonian$，$\hat{H'}$是相对于$\hat{H_0}$上的微扰，它的效应相比$\hat{H_0}$非常微小。如果$\hat{H'}$不含时间，则我们称此时处理的问题为定态微扰问题。本章我们讨论的问题是考虑$\hat{H'}$不含时间的情况下，能级和态受到的修正情况。
+    \subsection{微扰方程与其约束条件}
+    我们考虑的前提是本征方程：
+    \begin{equation}\label{equ7:weirao}
+        \hat{H}|\psi \rangle =E |\psi \rangle
+    \end{equation}
+    
+    考虑到一般情况下微扰算符$\hat{H'}$的量级为$\hat{H_0}$的1\%左右,为了让微扰效应突出，我们可以将微扰算符看作一个实数小量$\varepsilon$和一个量级和$\hat{H_0}$相似的算符$\hat{W}$的乘积：
+    \begin{equation} \label{equ7:suanfu}
+        \hat{H'}=\varepsilon \hat{W}
+    \end{equation}
+    
+    于是我们便可以将$\hat{H}$看作$\varepsilon$的泛函。由于$E,|\psi \rangle$是含有微扰的算符作用后得到的总能量和态矢量，因此我们可以想象，$E,|\psi \rangle$应该是含有变量$\varepsilon$的。数学上我们便可以对其进行幂级数展开
+    \footnote{事实上，这里的幂级数展开并没有讨论两个函数的收敛性，而这点实际上非常重要，但在本文中不予考虑}：
+    
+    \begin{align} \label{equ7:mijishu}
+        \begin{split}
+            E=& E^{(0)}+E^{(1)}\varepsilon+E^{(2)}\varepsilon^2+\cdots\\
+            |\psi\rangle=&|0\rangle+\varepsilon|1\rangle+\varepsilon^2|2\rangle+\cdots
+        \end{split}
+    \end{align}
+    
+    将式\eqref{equ7:mijishu}、\eqref{equ7:suanfu}代入 \eqref{equ7:weirao}，可得：
+        \begin{align}
+            \begin{split}
+                (\hat{H_0}+\varepsilon\hat{W})(|0\rangle+\varepsilon|1\rangle+\varepsilon^2|2\rangle+\cdots) =\\
+                (E^{(0)}+E^{(1)}\varepsilon+E^{(2)}\varepsilon^2+\cdots) (|0\rangle+\varepsilon|1\rangle+\varepsilon^2|2\rangle+\cdots)
+            \end{split}
+        \end{align}
+        
+    通过比等号两侧$\varepsilon^0,\varepsilon^1,\varepsilon^2$前的系数，我们可以得到：
+            \begin{align}\label{equ:0thpert}
+                \hat{H_0}|0\rangle=&E^{(0)}|0\rangle\\ 
+            (\hat{H_0}-E^{(0)})|1\rangle+&(\hat{W}-E^{(1)})|0\rangle=0  \label{equ:1stpert}
+            \end{align} 
+            \begin{equation}
+                (\hat{H_0}-E^{(0)})|2\rangle+(\hat{W}-E^{(1)})|1\rangle+E^{(2)}|0\rangle=0 \label{equ:2ndpert}
+            \end{equation}
+            
+            上面三式分别被称为0阶、1阶、2阶微扰方程。在后面的内容中，我们会利用这三个微扰方程求得能量和态的0阶、1阶、2阶微扰项的形式。
+            
+            在本节的最后，我们希望知道微扰方程的一些约束条件。其中一个重要的约束条件就是：幂级数展开的态$|q\rangle$满足什么性质。根据量子力学的波函数假设，我们知道一个性质“好”的态一定是归一的，于是对于标量积$\langle \psi|\psi \rangle$，我们希望它是归一的，于是考虑它的幂级数展开形式：
+            \begin{align}
+                 \begin{split}
+                     \langle \psi|\psi \rangle=&(\langle0|+\varepsilon\langle1|+\varepsilon^2\langle2|+\cdots)(|0\rangle+\varepsilon|1\rangle+\varepsilon^2|2\rangle+\cdots)+O(\varepsilon^3)\\
+                    =&\langle0|0\rangle+\varepsilon(\langle1|0\rangle+\langle0|1\rangle)+\varepsilon^2(\langle2|0\rangle+\langle0|2\rangle+\langle1|1\rangle)+O(\varepsilon^3)
+                 \end{split}
+            \end{align}
+           
+            如果只考虑0阶微扰，$|\psi\rangle \approx|0\rangle$，于是$\langle0|0\rangle=1$；如果只考虑到1阶微扰，即$|\psi\rangle \approx|0\rangle+|1\rangle\varepsilon$，那么一定有：$\langle \psi|\psi\rangle\approx\langle0|0\rangle+\varepsilon(\langle1|0\rangle+\langle0|1\rangle)$，则$\langle1|0\rangle+\langle0|1\rangle=0$，即$\langle1|0\rangle=\Bar{\langle0|1\rangle}$。因此要想保证$\langle \psi|\psi \rangle$的归一性，只有$\langle1|0\rangle=\langle0|1\rangle=0$。同理，如果只考虑到2阶微扰，一定满足关系$\langle2|0\rangle=\langle0|2\rangle=-\frac{1}{2}\langle1|1\rangle$。上述关系构成微扰方程约束条件的一部分。
+\section{非简并能级的微扰}
+本节我们讨论未微扰的$Hamiltonian \hat{H_0}$的一个非简并能级$E^0_n$，它对应的本征态只有一个，即$|\varphi_n\rangle$。根据式\eqref{equ:0thpert}，我们知道$|0\rangle$一定是$E_n^0$下的本征态，而对于本征值$E_n^0$来说，本征态只有$|\varphi\rangle$一个，因此$|0\rangle\propto |\varphi_n\rangle$。于是对于0阶微扰，我们可以简单的令：
+    \begin{align}
+        \begin{split}
+            E^0_n=&E^{0}\\
+            |\varphi_n \rangle=&|0\rangle
+        \end{split}
+    \end{align}
+    
+也就是说，当$\varepsilon\rightarrow0$时，微扰方程退化到无微扰的本征方程。下面开始讨论非简并能级各阶微扰所引起的能量和能级的变化。
+      \subsection{1阶修正}  
+        根据式\eqref{equ:1stpert}，我们考虑左矢$\langle\varphi_n|$的作用，可以得到：
+        
+        \begin{equation} \label{equ:1stpert_E}
+             \langle\varphi_n|\hat{H_0}|1\rangle-\langle\varphi_n|E^{(0)}|1\rangle+\langle\varphi_n|\hat{W}|0\rangle-\langle\varphi_n|E^{(1)}|0\rangle=0 
+        \end{equation}
+
+        由于$\langle1|0\rangle=0,|\varphi_n\rangle=|0\rangle$，于是有关系：
+        \begin{align}
+            \begin{split}
+                \langle \varphi| \hat{H_0}|1\rangle=&E^{(0)}\langle1|0\rangle=0\\
+               \langle \varphi|E^{(0)}|1\rangle=& E^{(0)}\langle 0|1\rangle=0
+            \end{split}
+        \end{align}
+        
+        将上面两式的结果代入\eqref{equ:1stpert_E}中，考虑限制条件$\langle0|0\rangle$，同时等号两边同乘$\varepsilon$使结果保持微扰算符$\hat{H'}$的形式，则有：
+        
+        \begin{equation}
+            E_{1stpertb}=\langle\varphi|\hat{H'}|\varphi\rangle
+        \end{equation}
+
+        其中$E_{1stpertb}=\varepsilon E^{(1)}$，被称为能量的一阶微扰项，我们可以发现能量的一阶微扰就等于微扰算符在未微扰态$|\varphi\rangle$下的平均值。
+        
+        随后我们考虑本征态的一阶微扰近似。我们的思路是利用算符$\hat{H_0}$的其他本征态$|\varphi_m ^0\rangle$
+        \footnote{所谓的非简并微扰问题指的是我们研究的能量对应的本征态是非简并的，但是其他能量对应的本征态当然可以是简并的，因此这里我们不失一般性的讨论}作用在1阶微扰方程(即式\eqref{equ:1stpert})上，即可得：
+        \begin{equation} \label{equ:1stpert_EE}
+             \langle\varphi_m^0|\hat{H_0}|1\rangle-\langle\varphi_m^0|E^{(0)}|1\rangle+\langle\varphi_m^0|\hat{W}|0\rangle-\langle\varphi_m^0|E^{(1)}|0\rangle=0 
+        \end{equation}
+        由于$\hat{H_0}$是Hermite算符，因此不同本征值的本征态是相互正交的，即：
+        $\langle0|\varphi_m^0\rangle=0$；并且根据$\langle\varphi_m^0|\hat{H_0}=\langle\varphi_m^0|E_m^0$，两式代入式\eqref{equ:1stpert_EE}，可得：
+        \begin{align}
+                  (E_m^0-E_n^0) \langle\varphi_m^0|1\rangle=\langle\varphi_m^0|\hat{W}|\varphi_n\rangle \Rightarrow 
+               \langle\varphi_m^0|1\rangle=\frac{1}{E_m^0-E_n^0}\langle\varphi_m^0|\hat{W}|\varphi_n\rangle
+        \end{align}
+
+        考虑到$\{|\varphi_n^0\}$是态空间上的一组正交归一完备基，于是态空间上任意一个态矢量都可以表示成这组基的线性组合，则有
+        \footnote{这里的线性组合本来是对于所有的m的，但是由于$\langle0|1\rangle=0$，因此求和号下就可以撇去m=n的情况}：
+        \begin{equation}\label{equ:1stpert_S}
+            |1\rangle=\sum_{m\ne n}\langle\varphi_m^0|1\rangle|\varphi_m^0\rangle=
+            =\sum_{m \ne n}\frac{\langle\varphi_m^0|\hat{W}|\varphi_n\rangle}{E_m^0-E_n^0}|\varphi_m^0\rangle
+        \end{equation}
+        
+        我们可以看到本征态的1级修正和除了未微扰态$|\varphi_n\rangle$以外的所有本征态有关，如果有效微扰算符在$|\varphi_m^0\rangle$和$|\varphi_n\rangle$之间的矩阵元为0，那么我们可以认为$|\varphi_m^0\rangle$对这个态的贡献为0。一般来说有效微扰算符$\hat{W}$导致的态的耦合程度越强（以矩阵元$\langle\varphi_m^0|\hat{W}|\varphi_n\rangle$ ⟩为判别依据），能级$E_m^0$就越靠近我们要研究的能级$E_n^0$。
+        
+        \subsection{2阶修正}
+        我们用相同的思路可以求解2阶微扰下能量的修正
+        \footnote{由于2阶微扰下态的修正项形式较为复杂，同时实际运用中很少用到，因此本笔记不予耗费笔墨于上}
+        。考虑左矢$\langle\varphi_n|$对2阶微扰方程式\eqref{equ:2ndpert}的作用：
+        \begin{align}
+            \begin{split}
+                \langle\varphi_n|\hat{H_0}|2\rangle - \langle\varphi_n|E^{(0)}|2\rangle+ \langle\varphi_n|\hat{W}|1\rangle-\langle\varphi_n|E^{(1)}|1\rangle+\langle\varphi_n|E^{(2)}|0\rangle=0
+            \end{split}
+        \end{align}
+        考虑到$|\varphi_n\rangle=|0\rangle,\langle0|1\rangle=0,\langle\varphi_n|\hat{H_0}=\langle\varphi_n E^{0}$，代入上式，则有：
+        \begin{equation}
+            E^{(2)}=\langle\varphi_n|\hat{W}|1\rangle
+        \end{equation}
+        
+        将式\eqref{equ:1stpert_S}代入上式可得：
+        
+        \begin{equation}
+            E^{(2)}=\sum_{m \ne n}\frac{\langle\varphi_m^0|\hat{W}|\varphi_n\rangle}{E_m^0-E_n^0}\langle\varphi_n|\hat{W}|\varphi_m^0\rangle=\sum_{m \ne n}\frac{{|\langle\varphi_m^0|\hat{W}|\varphi_n\rangle|}^2}{E_m^0-E_n^0}
+        \end{equation}
+        
+        即：
+        \begin{equation}
+            E_{2ndpertb}=\sum_{m \ne n}\frac{{|\langle\varphi_m^0|\hat{H'}|\varphi_n\rangle|}^2}{E_m^0-E_n^0}
+        \end{equation}
+        
+        由上式可以发现，能量的2阶微扰同样和未微扰态$|\varphi\rangle$以外的所有本征态有关。
+\section{简并能级的微扰}
+本节\footnote{在实际应用中，我们往往只考虑能量的1阶微扰以及态的0阶微扰，高阶微扰情况过于复杂，在此不加以继续推导了，但是思想是类似的。}我们讨论未微扰的$Hamiltonian$的一个简并能级$E_n^0$，它对应的本征态族为$\{\varphi_n^k\}$\footnote{由于Gram-Schimdt正交化的存在，因此令$\{\varphi_n^k\}$是相互正交的是合理的。}，假设其简并度为$f_k$，则本征方程可以写成：
+\begin{equation}\label{equ7:eigen_generate}
+    \hat{H_0}|\varphi_n^k\rangle=E_n^0|\varphi_n^k\rangle,k=1,2,\cdots,f_k
+\end{equation}
+
+对比0阶微扰方程：$ \hat{H_0}|0\rangle=E^{(0)}|0\rangle$，我们知道0阶微扰对应的能量仍然和未微扰的能量本征值相等，即：$E_n^0=E^{(0)}$；但是问题在于由于出现简并态，因此不能简单令$|0\rangle$为某个本征态而应该认为$|0\rangle$是这个本征态族的线性组合：
+\begin{equation}\label{equ7:generate_linearcomb}
+    |0\rangle=\sum_{i=1}^{f_k}a_i|\varphi_n^i\rangle=\sum_{i=1}^{f_k}\langle\varphi_n^i|0\rangle\cdot|\varphi_n^i\rangle
+\end{equation}
+
+将其代入1阶微扰方程(式\eqref{equ:1stpert})，可得：
+\begin{equation}
+    (\hat{H_0}-E_n^0)|1\rangle+\sum_{i=1}^{f_k}\langle\varphi_n^i|0\rangle(\hat{W}-E^{1})|\varphi_n^i\rangle=0
+\end{equation}
+
+同非简并微扰的做法类似，我们考虑任意一个简并态的左矢$\langle\varphi_n^k|$对上式的作用：
+\begin{align}\label{equ7:generate1stequ}
+        \langle\varphi_n^k|(\hat{H_0}-E_n^0)|1\rangle+\sum_{i=1}^{f_k}\langle\varphi_n^i|0\rangle\langle\varphi_n^k|(\hat{W}-E^{1})|\varphi_n^i\rangle=0
+\end{align}
+
+我们分开讨论上式，对于第一项$\langle\varphi_n^k|(\hat{H_0}-E_n^0)|1\rangle$，由本征方程(式\eqref{equ7:eigen_generate})，我们可以知道$\hat{H_0}$对对应左矢的作用方程为：$\hat{H_0}\langle\varphi_n^k|=E_n^0\langle\varphi_n^k|$，因此式\eqref{equ7:generate1stequ}的第一项为0。
+
+式\eqref{equ7:generate1stequ}第二项的计算如下：
+\begin{align}
+    \begin{split}
+        &\sum_{i=1}^{f_k}a_i\langle\varphi_n^k|(\hat{W}-E^{1})|\varphi_n^i\rangle\\
+        \Longleftrightarrow& \sum_{i=1}^{f_k}a_i\cdot \Big( \langle\varphi_n^k|\hat{W}|\varphi_n^i\rangle-E^{(1)}\langle\varphi_n^k|\varphi_n^i\rangle\Big)\\
+         \Longleftrightarrow& \sum_{i=1}^{f_k}a_i\cdot\langle\varphi_n^k|\hat{W}|\varphi_n^i\rangle-E^{(1)}a_k
+    \end{split}
+\end{align}
+
+将两项计算结果代入式\eqref{equ7:generate1stequ}，化简得到：
+\begin{equation}\label{equ7:generante_secularequ}
+    \sum_{i=1}^{f_k}a_i\cdot\langle\varphi_n^k|\hat{W}|\varphi_n^i\rangle-E^{(1)}a_k=0
+\end{equation}
+
+根据第\ref{chapter2}章的内容，我们可以将$\langle\varphi_n^k|\hat{W}|\varphi_n^i\rangle$看作矩阵元$W_{ki}$。于是上式(式\eqref{equ7:generante_secularequ})可以看作以式\eqref{equ7:generate_linearcomb}中$f_k$个叠加系数$a_i$为未知数的$f_k$元线性齐次方程组。其没有平凡解的充要条件为系数行列式为0，即久期方程：
+\begin{equation}\label{equ7:secularequ}
+    \begin{vmatrix}
+    W_{11}-E^{(1)} & W_{12} & \dots & W_{1f_k}\\
+    W_{21} & W_{22}-E^{(1)} & \dots & W_{2f_k}\\
+    \dots & \dots & \dots & \dots\\
+    W_{f_k1} & W_{f_k2} & \dots & W_{f_kf_k}
+    \end{vmatrix}=0
+\end{equation}
+
+通过久期方程，我们可以求解得到$E^{(1)}$的值\footnote{如果久期方程没有重根，则$E^{(1)}$有$f_k$个根，这个时候原来的简并态被1阶微扰完全解除；如果久期方程有重根，则能级的简并只是被部分的消除，此时可以根据实际情况需要考虑更高阶的近似}，于是能量精确到1阶近似的结果为：$E=E_n^0+\varepsilon E^{(1)}$；将求得的$E^{(1)}$代入方程组(式\eqref{equ7:generante_secularequ})中可以求出展开系数$a_i$，从而得到近似态。
+
+\section{微扰理论的应用}
+\subsection{氢原子n=2的Stark效应}
+下面，我们趁热打铁利用非简并微扰来计算一个简单的例子。1913年，Stark发现，把原子置于外电场中，原子发射的光谱线会发生分裂，这个现象被称为Stark效应。本节我们希望讨论氢原子最简单情况，也就是n=2时的Stark效应。(因为n=1时能级是非简并的，不可能发生能级分裂。)
+
+我们可以将处于外加电场的氢原子看作电偶极子，那么氢原子的电偶极矩为：$\Vec{p}=q\cdot \Vec{d}=-e\cdot\Vec{d}=e\cdot \Vec{r}$\footnote{这里电子的电荷为-e，偶极矩的$\Vec{d}$的方向是带负电指向带正电，而在氢原子所在坐标系中，带正电的原子核处于原点，因此有矢量关系$\Vec{r}=-\Vec{d}$}；同时电偶极子在外加电场(电场强度为E)的作用下附加的势能为：
+\begin{equation}
+    V(r)=-\Vec{p}\cdot \Vec{E}=-erE\cos\theta
+\end{equation}
+由于在观察氢原子Stark效应所施加的外电场为$E=10^{4}\sim 10^5 V/cm$远低于氢原子内部，由原子核引起的电场$E_{nucl}=\frac{e}{a^2}\sim 10^9 V/cm$(a为玻尔半径)。\footnote{这个能量估计是在原子单位制下，采用氢原子能量公式进行估计的。原子单位制的详细说明可以见}因此我们可以将氢原子在外加电场中的附加势能作为微扰处理，即：
+\begin{equation}\label{equ7:starks_weirao}
+    \hat{H'}=-erE\cos\theta
+\end{equation}
+
+下面考虑久期方程\footnote{在这里由于我们已经知道了$\hat{H'}$的形式，因此直接考虑$\hat{H'}$的久期方程即可}(\eqref{equ7:secularequ})的求解。在这里复习一下氢原子态的形式，氢原子波函数的通解为：
+\begin{equation}
+    \psi_{nlm}(r,\theta,\varphi)=R(r)\cdot Y_l^m(\theta,\varphi )
+\end{equation}
+
+如果我们将氢原子的本征态写成$|n,l,m\rangle$的形式，那么第一激发态的四个简并态的形式如下：
+\begin{align}
+    \begin{split}
+        |\phi_1\rangle=&|2,0,0\rangle=\frac{1}{\sqrt{2a^3}}(1-\frac{r}{2a})e^{-\frac{r}{2a}}Y_0^0\\
+        |\phi_2\rangle=&|2,1,0\rangle=\frac{1}{\sqrt{6a^3}}(\frac{r}{2a})e^{-\frac{r}{2a}}Y_1^0\\
+        |\phi_3\rangle=&|2,1,1\rangle=\frac{1}{\sqrt{6a^3}}(\frac{r}{2a})e^{-\frac{r}{2a}}Y_1^1\\
+        |\phi_4\rangle=&|2,1,-1\rangle=\frac{1}{\sqrt{6a^3}}(\frac{r}{2a})e^{-\frac{r}{2a}}Y_1^{-1}
+    \end{split}
+\end{align}
+
+其中几个球谐函数$Y_l^m$的形式为：
+\begin{align}
+    \begin{split}
+        Y_0^0(\theta,\varphi)=&\frac{1}{\sqrt{4\pi}}\\
+        Y_1^0(\theta,\varphi)=&\sqrt{\frac{3}{4\pi}}\cos\theta\\
+        Y_1^1(\theta,\varphi)=&\sqrt{\frac{3}{8\pi}}\sin\theta e^{i\varphi}\\
+        Y_1^{-1}(\theta,\varphi)=&-\sqrt{\frac{3}{8\pi}}\sin\theta e^{-i\varphi}
+    \end{split}
+\end{align}
+
+由于球谐函数$Y_1^0=\sqrt{\frac{3}{4\pi}}\cos\theta$，因此我们可以将微扰算符(式\eqref{equ7:starks_weirao})中的$\cos\theta$用球谐函数反代：
+\begin{equation}
+    \hat{H'}=-e\mathscr{E}r\cos\theta=-e\mathscr{E}r\sqrt{\frac{4\pi}{3}}Y_1^0 \quad (|E|=\mathscr{E})
+\end{equation}
+
+现在计算久期方程的矩阵元$H'_{ij}$：
+\begin{equation}
+    H'_{ij}=\langle\phi_i|\hat{H'}|\phi_2\rangle=-e\mathscr{E}r\sqrt{\frac{4\pi}{3}}Y_1^0\langle\phi_i|r|\phi_2\rangle
+\end{equation}
+
+根据积分的性质，我们知道，如果积分区间关于原点对称，那么奇函数的积分一定为0。观察上式的角度部分，出现了三个球谐函数的乘积：$Y_1^0Y_{l_i}^{m_i}Y_{l_j}^{m_j}$，如果我们做坐标变换$\cos\theta=\xi$,那么关于$\theta$的积分部分变成了$[-1,1]$，关于原点对称；同时$\sin\theta=(1-\xi^2)^{\frac{1}{2}}$。换句话说，$\cos\theta$是$\xi$的奇函数，$\sin\theta$是$\xi$的偶函数。通过验证，我们可以发现$H'_{11},H'_{13},H'_{14},H'_{22},H'_{31},H'_{33},H'_{34},H'_{41},H'_{43},H'_{44}$矩阵元$\theta$积分都为奇函数，因此这些矩阵元都为0。
+
+同时考虑到$\varphi$的积分区间是$[0,2\pi]$，因此如果积分中出现$e^{\pm i \varphi }$，则积分为0。于是$H'_{23},H'_{24},H'_{32},H'_{42}$为0。
+
+因此只有$H'_{12},H'_{21}$不为0。由于$Y_0^0,Y_1^0$都是实函数，于是代入矩阵元公式我们可以发现两者相等，即：
+\begin{align}
+\begin{split}
+     H'_{12}=H'_{21}=&\int_{r=0}^{\infty} \int_{\theta=0}^{\pi}\int_{\varphi=0}^{2\pi} \frac{1}{\sqrt{2a^3}}(1-\frac{r}{2a})e^{-\frac{r}{2a}}Y_0^0(-e\mathscr{E}r\sqrt{\frac{4\pi}{3}}Y_1^0)\\
+    &\frac{1}{\sqrt{6a^3}}(\frac{r}{2a})e^{-\frac{r}{2a}}Y_1^0 r^2sin\theta dr d\theta d\varphi\\
+    =& -\frac{e\mathscr{E}}{12a^4}\int_{r=0}^{\infty}r^4(1-\frac{r}{2a})e^{-\frac{r}{a}}dr\\
+   =&-\frac{e\mathscr{E}a}{12}\int_{\rho=0}^{\infty}\rho^4(1-\frac{\rho}{2})e^{-\rho}d\rho \quad(\rho=\frac{r}{a})\\
+   =&3ea\mathscr{E}
+\end{split}
+\end{align}
+
+于是该情况下的久期方程可以写成：
+\begin{equation}
+    \begin{vmatrix}
+    -E^{1} & 3ea\mathscr{E} & 0 & 0\\
+    3ea\mathscr{E} & -E^{1} & 0 & 0\\
+    0 & 0 & -E^{1} & 0\\
+    0 & 0 & 0 & -E^{1}
+    \end{vmatrix}=0
+\end{equation}
+
+解得$E_1^{1}=3ea\mathscr{E};E_2^{1}=E_3^{1}=0;E_4^{1}=-3ea\mathscr{E}$，带回对应的久期方程组，可得展开系数，于是对应的本征态为：
+\begin{align}
+    \begin{split}
+        |\psi^{+}\rangle=&\frac{1}{\sqrt{2}}(|\varphi_1\rangle+|\varphi_2\rangle)\\
+        |\psi^{0}\rangle=& a_3|\varphi_3\rangle + a_4|\varphi_4\rangle \quad(|a_3|^2+|a_4|^2=1)\\
+        |\psi^{-}\rangle=& \frac{1}{\sqrt{2}}(|\varphi_1\rangle-|\varphi_2\rangle)
+    \end{split}
+\end{align}
+
+\subsection{氢原子的精细结构}
+
+\subsection{Zeeman效应}
+
+\subsection{He原子}
+\subsubsection{He基态的微扰}
+
+\subsubsection{He第一激发态的微扰}

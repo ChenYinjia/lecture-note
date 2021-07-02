@@ -1,0 +1,198 @@
+%类设定
+\documentclass[cn,11pt,chinese,toc= twocol]{elegantbook}
+
+%设置封面格式
+\title{A brief note for Quantum Chemistry}
+\author{Yinjia Chen}
+\institute{华东理工大学}
+\date{\today}
+\version{2.1}
+\extrainfo{I think I can safely say that nobody understands quantum mechanics  ---  Feynman}
+%使用\bioinfo{}{}可以在首页输入其他想要的内容
+\bioinfo{邮箱}{10183891@mail.ecust.edu.cn}
+\cover{cover3.jpg}
+
+%引用宏包集合
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{float}
+\usepackage{tabularx}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+\allowdisplaybreaks[3]
+\graphicspath{{figure/}}
+\setlength{\unitlength}{0.20mm}
+% 修改目录深度
+\setcounter{tocdepth}{2}
+
+\begin{document}
+%加入封面内容
+\maketitle
+\frontmatter
+%更新情况说明
+\chapter*{更新情况}
+\datechange{2020/10/28}{Version1.2 正式发布}
+
+\begin{change}
+  \item 利用word模板对Version1.1进行了全面的排版
+  \item 增加了微扰论的相关内容
+\end{change}
+
+\datechange{\today}{Version2.1 正式发布}
+\begin{change}
+    \item 利用Latex模板对Version1.2进行了全面的排版
+    \item 修正了文章中描述不合理的地方
+        \begin{itemize}
+            \item 将文章中诸如$Hamilton$量等不正确的英语表达统一修改为正确的英文形式，如$Hamiltonian$
+            \item 所有的算符用$\hat{A}$这样的记号表示
+            \item 对于笔记中不通顺的内容进行了全面的修改
+        \end{itemize}
+    \item 调整了文章的结构与顺序
+        \begin{itemize}
+            \item 将原先的五章调整到现在的十一章，使得文章内容能够更加丰富
+            \item 将角动量放到氢原子之前，使得行文逻辑更为顺畅
+        \end{itemize}
+    \item 大幅增加与调整内容
+        \begin{itemize}
+            \item 第二章中增加密度矩阵的内容，并对量子统计做了简要的介绍
+            \item 第三章、第四章、第六章除了常规的求解以外增加大量的实例与补充内容         ，尤其是数值求解$Schrodinger$方程
+            \item 第五章中有关旋转部分重写，采用群论的语言描述
+            \item 增加第九章与第十一章有关变分法与全同粒子的内容
+            \item 谐振子与氢原子重新编排
+            \item 专门增加第十章近似方法的例子，旨在复习之前内容并且对化学键的形成做了一定程度的说明
+            \item 增加7个附录，补充必要的数理知识
+        \end{itemize}
+  
+\end{change}
+\chapter*{前言}
+\markboth{Introduction}{前言}
+本文是我自学量子力学所整理的笔记。2019年也写过一版量子力学的笔记，进度到角动量和自旋，还剩近似方法没有学。虽然进度并不慢，但是很多内容似懂非懂，学习的并不扎实。2020年7月份参加了南大理论化学的夏令营，得以一窥自己与其他同学、与真正研究理论化学的差距以外，还明确了自己究竟该如何学习量子力学以及理论化学的其他知识。因此这篇笔记就是一次小小的试点，希望在原有笔记的基础上加入自己对量子力学新的看法，新的思考。
+
+本文并不是完全的从零开始，读者至少应该了解微积分（尤其是多元微积分）的计算，线性代数的相关知识。如果能有大学物理（尤其是电磁学、波动光学）的基础则更好。
+
+\vskip 1.5cm
+
+\begin{flushright}
+Yinjia Chen\\
+October 18, 2020
+\end{flushright}
+
+\chapter*{序}
+%\markboth{Introduction}{前言}
+大家好，这里是一篇序言。
+
+开序之前，先自我介绍一下，以便众位读者明白笔者是基于怎样的视角总起此书。笔者与作者相识至今已有十年，算年少时期的密友，也一度是基础科学学科探索之路上的同行者。不过因种种原因，笔者今已转战人文学科。为防误导，本序言不对书中内容作过多提炼和概要，仅以密友的视角谈谈作者及本书的创作经历。
+
+先从这个笔名（homingpigeon）开始吧。从这个笔名的现况逆推到产生笔名的源头大致是以下流程：
+
+\begin{center}
+  homingpigeon$\rightarrow$ homing pigeon$\rightarrow$ home+pigeon $\rightarrow$ 家鸽$\rightarrow$ 伽哥
+\end{center}
+
+想必已有读者猜到作者名字的末字就是伽，不错，那么下文便用笔者惯用的伽哥称呼作者。
+因年初疫情爆发及伴随而来的各种不便，本书的完结算是今年为数不多的、值得庆贺的好事。因此当伽哥邀我作序时，心情最初是雀跃的，不过随之又颇有惧意。
+
+相识以来，伽哥的形象总是比较高大，至少在身高及学业上，说是巨人也不为过。真正对伽哥产生钦佩之情是因一次看到他在看教材。并非是说他看书的方法多么有效或者姿势多么奇诡，而是在一瞬间感觉到这个人散发出一股严肃又活跃的气氛。在内卷化的人才培养制度中，能遇到这样一个纯粹热爱“学习”的人当属难得，所以很多年以后的今日，笔者学习或研究时也总想起那一幕。故此，伽哥可以说是笔者学习态度方面的导师。
+
+此书的创作本是源于伽哥进入大学以来的诸多迷茫：对自身能力的迷茫、对未来规化的迷茫、对学科属性的迷茫……在伽哥看来，化学并非纯然的实验科学，关注基础的数理知识有助于日后的学科研究。因此，本书所写内容是化学研究的重要工具，也是伽哥构建的化学宇宙中不可或缺的基础元素。
+
+概因常常时运不济，伽哥除正经讲学问外总是自谦；反过来说，本书的撰写经历反倒是他为数不多的自信时刻。虽则内容以梳理为主，有时兴致突来或是笔耕难辍，也会鏖战通宵。写此序言既是为激励伽哥，也是希望读者能先以尊重的心态进入阅读。
+
+\vskip 1.5cm
+
+\begin{flushright}
+梓琨\\
+October 18, 2020
+\end{flushright}
+
+%目录导入
+\tableofcontents
+
+%正文，从正文开始标页数
+\mainmatter
+
+\part{量子力学的基础知识}
+\chapter{预备知识}
+   \input{Chapter1}
+
+\chapter{量子力学的基本假设}\label{chapter2}
+    \input{Chapter2}
+    
+\chapter{势阱}
+   \input{Chapter3}
+
+
+\chapter{谐振子}
+    \input{Chapter4}
+
+
+\chapter{角动量理论}
+    \input{Chapter5}
+ 
+\chapter{氢原子}
+
+    \input{Chapter6}
+
+
+\chapter{变分法}
+
+    \input{Chapter7}
+    
+\chapter{定态微扰论}
+
+    \input{Chapter8}
+    
+\chapter{含时微扰论与量子跃迁}
+
+ \input{Chapter9}
+
+
+\chapter{对化学键的基本认识}
+
+    \input{Chapter10}
+    
+\chapter{全同粒子}\label{chapter:identicalparticles}
+
+ \input{Chapter11}
+
+\part{量子化学基础}
+
+\chapter{多电子原子}
+    \input{Chapter12}
+
+\appendix
+\part{附录} 
+\chapter{线性代数基础}
+    \input{AppendixA}
+ 
+\chapter{二阶变系数常微分方程的求解与基本性质}
+    \input{AppdendixB}
+    
+\chapter{群论基础}
+    \input{AppendixC}
+    
+\chapter{狭义相对论基础}
+    \input{AppendixD}
+    
+\chapter{数值计算方法简介}
+    \input{AppendixE}
+    
+\chapter{经典统计力学基础}   
+    \input{AppendixF}
+
+\chapter{分析力学基础}
+    \input{AppendixG}
+    
+\nocite{*} 
+\bibliography{reference}
+\chapter*{后记}
+
+\vskip 1.5cm
+
+\begin{flushright}
+Yinjia Chen\\
+\today
+\end{flushright}
+\end{document}
